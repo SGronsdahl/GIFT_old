@@ -4,7 +4,7 @@ navbar:
   title: "Geomorphic Approach"
   left:
     - text: "Home"
-      href: home.html
+      href: index.html
     - text: "Guidance"
       href: guidance.html   
     - text: "App"

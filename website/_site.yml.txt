@@ -1,0 +1,18 @@
+name: "Geomorphic Approach"
+output_dir: "."
+navbar:
+  title: "Geomorphic Approach"
+  left:
+    - text: "Home"
+      href: home.html
+    - text: "Guidance"
+      href: guidance.html   
+    - text: "App"
+      href: app.html
+    - text: "Source Code"
+      href: sourcecode.html
+    - text: "References"
+      href: references.html
+output:
+  html_document:
+    theme: flatly

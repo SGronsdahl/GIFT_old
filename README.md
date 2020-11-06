@@ -7,8 +7,10 @@ This package can be installed using the below code snippet:
 # library(devtools)
 
 ## install and load package
-# install_github("SGronsdahl/GeomorphicInstreamFlowTool")
-library(GeomorphicInstreamFlowTool)
+# install_github("SGronsdahl/GeomorphicApproach")
+library(GeomorphicApproach)
 ```
 
-For supporting information, links to relevant references, and a user's guide, please visit the following website:
+For supporting information, links to relevant references, and a user's guide, please visit the package website. (link tbd).
+
+This package was created and is maintained by Stefan Gronsdahl.

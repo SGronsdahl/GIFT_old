@@ -1,14 +1,25 @@
----
-title: "Page Placeholder"
-author: "Stefan Gronsdahl"
-date: "06/11/2020"
-output: html_document
----
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+<center>
+<br>
+<br>
+
+This project was funded by a grant from [the Habitat Conservation Trust Foundation](https://hctf.ca/).
+
+<br>
+
+```{r, echo = F, message = T, out.width = '30%', fig.align='center'}
+knitr::include_graphics('HCTFLogo.jpg') 
 ```
 
-## R Markdown
+<br>
+<bt>
 
-This page is a placeholder
+All of the code presented on this page is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. The code is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+<br>
+<br>
+
+```{r, echo = F, message = T, out.width = '85%', fig.align='center'}
+knitr::include_graphics('brooktrout.jpg') 
+```
+

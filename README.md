@@ -11,6 +11,6 @@ This package can be installed using the below code snippet:
 library(GeomorphicApproach)
 ```
 
-For supporting information, links to relevant references, and a user's guide, please visit the package website. (link tbd).
+For supporting information, links to relevant references, and a user's guide, please visit the Geomorphic Approach [website](https://sgronsdahl.github.io/GeomorphicApproach/)
 
 This package was created and is maintained by Stefan Gronsdahl.

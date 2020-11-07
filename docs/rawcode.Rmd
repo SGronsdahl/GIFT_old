@@ -1,14 +1,9 @@
----
-title: "Page Placeholder"
-author: "Stefan Gronsdahl"
-date: "06/11/2020"
-output: html_document
----
+<br>
+<br>
+<br>
+<br>
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
 
-## R Markdown
+To access the source code for the Geomorphic Approach, users are directed to the following [GitHub repository](https://github.com/SGronsdahl/GeomorphicApproach). 
 
-This page is a placeholder
+To access the source code for the UBC Regime Model component of the Geomorphic Approach, users are directed to Brett Eaton's [website](https://blogs.ubc.ca/beaton/working-code/)

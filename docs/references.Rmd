@@ -1,14 +1,9 @@
----
-title: "Page Placeholder"
-author: "Stefan Gronsdahl"
-date: "06/11/2020"
-output: html_document
----
+<br>
+<br>
+<br>
+<br>
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
+The following references provide more information on the Geomorphic Approach
 
-## R Markdown
-
-This page is a placeholder
+* Eaton, B., Church, M., and Millar, R. 2004. Rational regime model of alluvial channel morphology and response. Earth Surface Processes and Landformds, 29(4). [https://doi.org/10.1002/esp.1062](https://doi.org/10.1002/esp.1062)
+* McParland, D., Eaton. B., and Rosenfeld, J. 2016. At-a-station hydraulic geometry simulator. River Research and Applications, 32(2). [https://doi.org/10.1002/rra.2851](https://doi.org/10.1002/rra.2851) 

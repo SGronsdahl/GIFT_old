@@ -1,6 +1,6 @@
 ### Geomorphic Approach ###
 
-#' A function to execute the Geomorphic Approach hydraulic simulation routine
+#' A function to execute the Geomorphic Approach hydraulic simulation for flows below bankfull.
 #'
 #' This function executes the hydraulic geometry simulator to evaluate reach-averaged depths and velocities
 #' generated at flows less than bankfull conditions.
@@ -19,120 +19,235 @@
 #' @return data frame of reach-averaged hydraulics
 #' AvgHydraulics()
 
-AvgHydraulics = function(S, wb, db, db_max = NULL, b_value = NULL, max_Q = 1,
-                             D84, xs_output = TRUE) {
+library(dplyr)
+library(zoo)
 
-  # load libraries
-  library(dplyr)
-  library(zoo)
-
-  ###########################################
-  ##### Define Find_U Function #####
-  findU = function(Wb, S, D84, depths) {
-
-    deltaX = 0.0001
-    Xgrid = Wb * seq(0, 1, deltaX)
-
-    wet.vert = depths[depths >= 0]
-    Wi = length(wet.vert) * deltaX * Wb
-    Ai = sum(wet.vert * deltaX * Wb)
-    di = Ai / Wi
-    Pi = sum((diff(wet.vert)^2 + (max(Xgrid) * deltaX) ^2) ^ (1/2))
-    Ri = Ai/Pi
-
-    # Ferguson's continuously varying power law
-    D.84 = D84 / 1000
-    g = 9.81
-    a1 = 6.5
-    a2 = 2.5
-    Res = a1 * a2 * (Ri / D.84) /
-      (a1^2 + a2^2 * (Ri / D.84) ^ (5/3)) ^ (1/2)
-    Ui = Res * sqrt(g * Ri * S) # Velocity (m/s)
-
-    # Formatting the outputs in a dataframe
-    df = data.frame(Ai, Wi, di, Ui)
-
-    return(df)
+calcWidth <- function(elev, b, wb, db, dmax) {
+  
+  wetted.width.leftbank = 0
+  width.leftbank = b * wb
+  depth.leftbank = db
+  
+  width.channel = (0.99-b) * wb
+  depth.channel = dmax-db
+  
+  width.rightbank = 0.01*wb
+  wetted.width.rightbank = width.rightbank*elev/dmax
+  
+  if(elev >= depth.channel) {
+    wetted.width.channel = width.channel
+    
+    wetted.depth.leftbank = elev - depth.channel
+    wetted.width.leftbank = width.leftbank*wetted.depth.leftbank/depth.leftbank
+    
+  } else {
+    wetted.width.channel = width.channel*elev/depth.channel
   }
+  
+  wetted.width = wetted.width.leftbank + wetted.width.channel + wetted.width.rightbank
+  
+  return(wetted.width)
+}
 
+calcArea <- function(elev, b, wb, db, dmax) {
+  
+  width.leftbank = b * wb
+  depth.leftbank = db
+  wetted.area.leftbank = 0
+  
+  width.channel = (0.99-b) * wb
+  depth.channel = dmax-db
+  
+  width.rightbank = 0.01*wb
+  wetted.width.rightbank = width.rightbank*elev/dmax
+  
+  wetted.area.rightbank = wetted.width.rightbank*elev/2
+  
+  
+  if(elev >= depth.channel) {
+    wetted.area.channel = width.channel*depth.channel/2 + width.channel*(elev-depth.channel)
+    
+    wetted.depth.leftbank = elev - depth.channel
+    wetted.width.leftbank = width.leftbank*wetted.depth.leftbank/depth.leftbank
+    wetted.area.leftbank = wetted.width.leftbank*wetted.depth.leftbank/2
+    
+  } else {
+    wetted.width.channel = width.channel*elev/depth.channel
+    wetted.area.channel = wetted.width.channel*elev/2
+  }
+  
+  wetted.area = wetted.area.leftbank + wetted.area.channel + wetted.area.rightbank
+  
+  return(wetted.area)
+}
+
+calcP <- function(elev, b, wb, db, dmax) {
+  
+  width.leftbank = b * wb
+  depth.leftbank = db
+  
+  width.channel = (0.99-b) * wb
+  depth.channel = dmax-db
+  
+  width.rightbank = 0.01*wb
+  depth.rightbank = dmax
+  
+  if(elev >= depth.channel) {
+    
+    wetted.depth.leftbank = elev - depth.channel
+    wetted.width.leftbank = width.leftbank*wetted.depth.leftbank/depth.leftbank
+    length.bottom.leftbank = sqrt(wetted.width.leftbank^2+wetted.depth.leftbank^2)
+    
+    length.bottom.channel = sqrt(width.channel^2+depth.channel^2)
+    
+    wetted.width.channel = width.channel*elev/depth.channel
+    wetted.width.right.bank = width.rightbank*elev/depth.rightbank
+    length.bottom.right.bank = sqrt(wetted.width.right.bank^2+elev^2)
+    
+    p = length.bottom.leftbank + length.bottom.channel + length.bottom.right.bank
+    
+  } else {
+    
+    wetted.width.channel = width.channel*elev/depth.channel
+    wetted.width.right.bank = width.rightbank*elev/depth.rightbank
+    
+    length.bottom.channel = sqrt(wetted.width.channel^2+elev^2)
+    length.bottom.right.bank = sqrt(wetted.width.right.bank^2+elev^2)
+    
+    
+    p = length.bottom.channel + length.bottom.right.bank
+    
+  }    
+  
+  return(p)
+}
+
+calcUi <- function(Ri, D84, S) {
+  D.84 <- D84 / 1000 #D84 grain size in m
+  g <- 9.81 # gravity
+  a1 <- 6.5
+  a2 <- 2.5
+  Res <- a1 * a2 * (Ri / D.84) /
+    (a1^2 + a2^2 * (Ri / D.84) ^ (5/3)) ^ (1/2)
+  Ui <- Res * sqrt(g * Ri * S) # Velocity (m/s)
+  return(Ui)
+}
+
+AvgHydraulics <- function(S, wb, db, db_max = NULL, b_value = NULL, max_Q = 1,
+                            D84, xs_output = TRUE) {
+  
+  #####################################################
+  # input validation
+  if(!is.numeric(S)) {stop("AvgHydraulics expects 'S' to be numeric")}
+  if(S <= 0 ) {stop("AvgHydraulics expects 'S' to be a positive number")}
+  
+  if(!is.numeric(wb)) {stop("AvgHydraulics expects 'wb' to be numeric")}
+  if(wb <= 0 ) {stop("AvgHydraulics expects 'wb' to be a positive number")}
+  if(wb > 100 ) {warning("Warning: width outside of recommended range")}
+  
+  if(!is.numeric(db)) {stop("AvgHydraulics expects 'db' to be numeric")}
+  if(db <= 0 ) {stop("AvgHydraulics expects 'db' to be a positive number")}
+  if(db > 5 ) {warning("Warning: db outside of recommended range")}
+  
+  if(!is.numeric(D84)) {stop("AvgHydraulics expects 'D84' to be numeric")}
+  if(D84 <= 1 ) {warning("Warning: Confirm D84 is entered in mm")}
+  if(D84 > 400 ) {warning("Warning: D84 may be outside of recommended range")}
+
+  deltaX = 0.0001
+  deltaY = 0.001
   #############################################################
   ##### Simulate Hydraulics #####
-
+  
   # Ferguson model's shape factor (b): define based on specified inputs
   if(is.null(b_value) == FALSE){
-    b = b_value
+    b <- b_value # option 1: user specified
   } else if (is.null(db_max) == FALSE) {
-    b = 1 - (db / db_max)
+    b <- 1 - (db / db_max) # option 2: incorporates db_max values
   } else {
-    b = (wb / db) / 100
+    b <- (wb / db) / 100 # option 3: uses mean width
   }
-
-  # stop function execution if error message too high
-  try(if(b > 0.7) stop("Error: model will not produce realistic results because b-value unrealistically high"))
-
+  # b value input validation
+  if(b > 0.7 ) {warning("Warning: b_value outside of recommended range")}
+  
   # define grid
-  deltaX = 0.0001 # Resolution of grid upon which to calculate Q
-  # (as a proportion of wb)
-  deltaY = 0.001  # increment by which to change depths when estimating HG
-
-  # Simulate max depth if necessary
-  dmax = (1 + b) / (1 - b) * db
-
+  #deltaX <- 0.0001
+  #deltaY <- 0.001  # increment by which to change depths when estimating HG
+  
+  # estimate max depth using b-value
+  dmax <- (1 + b) / (1 - b) * db
+  
   # generate xs_corrdinates
-  X = c(0, b * wb, 0.99 * wb, wb)
-  Y = 5 * db- c(0, db, dmax, 0)
-
-  # Interpolate the distribution onto an XS raster
-  Xgrid = wb * seq(0, 1, deltaX)
-  Ygrid = matrix(unlist(approx(X, Y, Xgrid)), ncol = 10001, byrow = TRUE)[2,]
-
-  # Specify the values of the water surface elevation for which to calculate Wi
-  Zw = 5 * db - dmax + seq(0.02 * dmax, dmax, deltaY * dmax)
-
+  X <- c(0, b * wb, 0.99 * wb, wb)
+  Y <- 5 * db- c(0, db, dmax, 0) # depths are relative
+  
+  # Interpolate the distribution onto an xs raster
+  Xgrid <- wb * seq(0, 1, deltaX)
+  Ygrid <- matrix(unlist(approx(X, Y, Xgrid)), ncol = length(Xgrid), byrow = TRUE)[2,]
+  
+  # Specify water surface elevations for which to calculate Wi
+  Zw <- 5 * db - dmax + seq(0.02 * dmax, dmax, deltaY * dmax)
+  
   ######################################################
   # For loop to calculate the width and discharge for each chosen water level
-  simulated = data.frame(Q = NA, Ai = NA, Wi = NA, di = NA, Ui = NA)
-  results = list()
-
+  
+  # create objects to hold store results 
+  simulated <- data.frame(Zw=Zw, Q = NA, Ai = NA, Wi = NA, di = NA, Ui = NA, elev = NA)
+  results <- list()
+  
   for (j in 1:length(Zw)) {
     #j = 20
-    depths = Zw[j] - Ygrid # Calculate the depths, for each vertical
-    results = findU(wb, S, D84, depths)
-    results = c(Q = results[1, 4] * results[1, 1], results)
-    simulated[j, ] = results
+    elev = Zw[j] - min(Ygrid)
+    Wi = calcWidth(elev, b, wb, db, dmax)
+    Ai = calcArea(elev, b, wb, db, dmax)
+    Pi = calcP(elev, b, wb, db, dmax)
+    
+    di <- Ai / Wi
+    Ri <- Ai/Pi
+    Ui = calcUi(Ri, D84, S)
+    Q = Ui * Ai
+    
+    simulated$elev[j] = elev
+    simulated$Wi[j] = Wi
+    simulated$Ai[j] = Ai
+    simulated$Pi[j] = Pi
+    simulated$di[j] = di
+    simulated$Ri[j] = Ri
+    simulated$Ui[j] = Ui
+    simulated$Q[j] = Q
   }
 
-  ## interpolate outputs to whole numbers
-  Q = c(seq(0.001, 0.1, 0.001), seq(0.11, 1, 0.01), seq(1.1, 10, 0.1),
-        seq(11, 100, 1), seq(110, 1000, 10), seq(1100, 10000, 100))
-
+  # set up data frame of outputs with varying streamflow intervals
+  Q <- c(seq(0.001, 0.1, 0.001), seq(0.11, 1, 0.01), seq(1.1, 10, 0.1),
+         seq(11, 100, 1), seq(110, 1000, 10), seq(1100, 10000, 100))
+  
   # add modelled hydraulics to output dataframe
-  Ai = approx(simulated$Q, simulated$Ai, xout = Q)[2]
-  Wi = approx(simulated$Q, simulated$Wi, xout = Q)[2]
-  di = approx(simulated$Q, simulated$di, xout = Q)[2]
-  Ui = approx(simulated$Q, simulated$Ui, xout = Q)[2]
-
-  mod_hyd = data.frame(Q, Ai = Ai$y, Wi = Wi$y, di = di$y, Ui = Ui$y) %>%
+  Ai <- approx(simulated$Q, simulated$Ai, xout = Q)[2]
+  Wi <- approx(simulated$Q, simulated$Wi, xout = Q)[2]
+  di <- approx(simulated$Q, simulated$di, xout = Q)[2]
+  Ui <- approx(simulated$Q, simulated$Ui, xout = Q)[2]
+  
+  # filter results
+  mod_hyd <- data.frame(Q, Ai = Ai$y, Wi = Wi$y, di = di$y, Ui = Ui$y) %>%
     filter(is.na(Ai) == FALSE) %>% filter(Q <= max_Q)
-
+  
   #####################################################
   # Prepare graph of cross section
   if(xs_output == TRUE){
-
+    
     # output coordinates
     if(is.null(db_max) == TRUE){
-      plot_y = c(0, (db * -1), (dmax * - 1), 0)
+      plot_y <- c(0, (db * -1), (dmax * - 1), 0)
     } else {
-      plot_y = c(0, (db * -1), (db_max * - 1), 0)
+      plot_y <- c(0, (db * -1), (db_max * - 1), 0)
     }
-
+    
     # set up x-values to plot
-    plot_x = c(0, (b * wb), (0.99 * wb), wb )
-
+    plot_x <- c(0, (b * wb), (0.99 * wb), wb )
+    
     # write channel cross section
-    channel_xs = data.frame(x = plot_x, y = plot_y)
+    channel_xs <- data.frame(x = plot_x, y = plot_y)
     write.csv(channel_xs, "channel_xs.csv", row.names = FALSE)
-
+    
     # plot simple figure
     jpeg("channel_xs.jpeg", width = 6, height = 4, units = "in", res = 300)
     par(mar = c(4.5, 4.5, 1, 1))
@@ -148,7 +263,9 @@ AvgHydraulics = function(S, wb, db, db_max = NULL, b_value = NULL, max_Q = 1,
     dev.off()
   } else {
   }
+  
+  # return modelled hydraulics
   return(mod_hyd)
+  
 }
-
 

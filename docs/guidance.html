@@ -314,29 +314,33 @@ $(document).ready(function () {
 <p><br> <br></p>
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
-<p>This page provides a guide for the use of the Geomorphic Approach for conducting instream flow assessments. Generally, the intent of instream flow assessments is to quantify available fish habitat at different flow levels using a metric called weighted usable area, (<em>WUA</em>). These relationships are often used to support water allocation and management decisions.</p>
-<p>There are two main components for determining the <em>WUA</em> of a stream: (1) hydraulic data to characterize the depth and velocity characteristics of the stream, and (2) a biological model that describe the relevant species’ preference for those hydraulic characteristics, known as habitat suitability curves (HSCs). Observations that characterize the substrate and cover characteristics and the associated fish preferences are also often used to calculate <em>WUA</em>.</p>
-<p>Instream flow assessments using conventional methodologies are time consuming and expensive to implement and they can only represent static channel conditions that represent a snapshot in time. The Geomorphic Approach has been designed to address these limitations. I can be implemented using minimal data which reduces the required fieldwork, data processing, and computing time, and provides considerable cost-savings compared to conventional approaches.</p>
-<p>The Geomorphic Approach has three distinct components: (1) a reach-averaged hydraulic simulator, (2) statistical distributions of depths and velocity that are used to calculate <em>WUA</em>, and (3) a geomorphic regime model that can be used to predict how environmental change could affect channel conditions. These instructions are primarily focused on the implementation of the hydraulic simulator and statistical distribution components of the Geomorphic Approach. Readers who are interested in the theoretical underpinnings of the this approach are referred to McParland et al. (2016) for information on the hydraulic simulator, Saraeva and Hardy (2009) and Schweizer et al. (2007) for information on the statistical distributions, and Eaton et al. (2004) for information on the regime model. Additionally, we are also in the process of conducting an evaluation of the Geomorphic Approach in eight streams located in western Canada. Once the findings of this evaluation become available we will share them on this webiste. Please check out the References tab for more links to these studies.</p>
+<p>This page provides a guide for the use of the Geomorphic Approach for conducting instream flow assessments. Generally, the intent of instream flow assessments is to quantify available fish habitat at different flow levels using a metric called weighted usable area (<em>WUA</em>). The results of instream flow assessments are often used to support water allocation and management decisions.</p>
+<p>There are two main components for determining the <em>WUA</em> of a stream: (1) hydraulic data to characterize the depth and velocity characteristics of the stream, and (2) a biological model that describe the relevant species’ preference for those hydraulic characteristics, known as habitat suitability curves (HSCs). Observations that characterize the substrate and cover characteristics and the associated fish preferences may also be used to calculate <em>WUA</em>.</p>
+<p>Instream flow assessments using conventional methods are time consuming and expensive to implement and they only represent static channel conditions that represent a snapshot in time. The Geomorphic Approach has been designed to address these limitations by improving the hydraulic components of instream flow assessments. It can be implemented using minimal field data, and requires significantly less data processing and computing time compared to conventional methods.</p>
+<p>The Geomorphic Approach has three distinct components:</p>
+<ol style="list-style-type: decimal">
+<li>A reach-averaged hydraulic simulator,</li>
+<li>statistical distributions of depths and velocity that are used to calculate <em>WUA</em>, and</li>
+<li>a geomorphic regime model that can be used to predict how environmental change could affect channel conditions.</li>
+</ol>
+<p>This guidance is focused on the implementation of the hydraulic simulator and statistical distribution components of the Geomorphic Approach. Readers who are interested in the theoretical underpinnings of the this approach are referred to McParland et al. (2016) for information on the hydraulic simulator, Saraeva and Hardy (2009) and Schweizer et al. (2007) for information on the statistical distributions, and Eaton et al. (2004) for information on the geomorphic regime model. An evaluation of the Geomorphic Approach in eight streams located in western Canada is also in progress. Once the findings of this evaluation become available they will be shared on this webiste. Please check out the References tab for more links to these studies.</p>
 <p><br></p>
 <div id="model-overview" class="section level2">
 <h2>Model Overview</h2>
-<p>The hydraulic data necessary to Geomorphic Approach execute the Geomorphic Approach can be collected during one field visit that does not have to coincide with specific flow conditions. To calculate <em>WUA</em>, users currently must upload their own HSCs. The Geomorphic Approach produces distributions of channel hydraulics at the reach scale. Currently, the Geomorphic Approach is unable to model the habitat conditions of individual channel units, such as pools or riffles.</p>
+<p>The hydraulic data necessary to execute the Geomorphic Approach can be collected during one field visit that does not have to coincide with specific flow conditions. To calculate <em>WUA</em>, users must define their own HSCs. The Geomorphic Approach produces distributions of channel hydraulics at the reach scale. Currently, the Geomorphic Approach is unable to model the habitat conditions of individual channel units, such as pools or riffles.</p>
 <p>The hydraulic simulator component of the Geomorphic Approach uses a reach-averaged channel cross section of bankfull geometry. Using the input data, an index of bankfull channel shape (<em>b</em>) is calculated that ranges from 0 (rectangular channel) to 1 (highly skewed channel). To simulate the hydraulics of flows below bankfull, the model iteratively drops the water level until the point of zero discharge. For each modelled water level, mean velocity and depth is calculated.</p>
-<p>Following the prediction of reach-averaged hydraulics, the next step is to apply statistical frequency distributions to represent reach-averaged variability. Depths are estimated using a normal-log-normal distribution and velocities are estimated using a normal-exponential distribution. The proportions of each distribution that are relevant to each flow are scaled by the Froude number. Following the application of the statistical frequency distributions, the resultant depth and velocity distributions can then be paired with user-specified habitat suitability curves to determine <em>WUA</em>.</p>
-<p>The third component of the Geomorphic Approach is the application of the UBC Regime Model (UBCRM). This model can be used to evaluate how environmental pertubations, such as climate and land-use change, are likely to affect bankfull parameters. The predicted channel geometry can then be used with the hydraulic simulator and the statistical frequency distributions to estimate the subsequent changes to fish habitat due to various environmental perturbations (i.e. ‘what-if’ scenarios). The UBCRM may also be used to estimate input parameters, in the event that no field observations are available.</p>
+<p>Following the prediction of reach-averaged hydraulics, the next step is to apply statistical frequency distributions to represent reach-averaged variability. The resultant depth and velocity distributions can then be paired with user-specified habitat suitability curves to determine <em>WUA</em>.</p>
+<p>The third component of the Geomorphic Approach is the application of the UBC Regime Model (UBCRM). This model can be used to evaluate how environmental pertubations, such as climate and land-use change, are likely to affect bankfull parameters. The predicted channel geometry can then be used with the hydraulic simulator and the statistical frequency distributions to estimate the subsequent changes to fish habitat due to various environmental perturbations (i.e. ‘what-if’ scenarios). The UBCRM may also be used to estimate input parameters if field observations are limited.</p>
 <p><br></p>
 </div>
 </div>
-<div id="how-to-use-the-geomorphic-approach" class="section level1">
-<h1>How to use the Geomorphic Approach</h1>
+<div id="applying-the-geomorphic-approach" class="section level1">
+<h1>Applying the Geomorphic Approach</h1>
+<p><br> ### Field Considerations</p>
+<p>There are many ways the Geomorphic Approach could be implemented. Field programs should be designed around project objectives. This section is intended to provide considerations for designing a field program, it is not a step-by-step guide for collecting field data.</p>
+<p>When planning a field trip to collect data to run the Geomorphic Approach, it is necessary to identify the study reach. Then, channel geometry can be characterized by collecting depth data along a series of transects. The location and the appropriate number of transects are dependent on factors such as desired accuracy, access, and time. A robust approach is to identify cross sections randomly within the reach, but that is not always practical. Another option is to characterize the study reach by channel units (mesohabitats), and then identify transects within those classifications using a stratified random approach. When collecting cross sections, be sure to note the estimated bankfull elevations on either side of the channel.</p>
+<p>Another key data requirement to execute the Geomorphic Approach is a representative grain size distribution, which is used to evaluate channel roughness and estimate velocity. This can be conducted using a Wolman pebble count, analysis of photographs, or visual estimation. Because the field work does not need to coincide with any particular flow, these data are most easily collected during open-water, low flow conditions. Coordinating a field visit during low flows would also likely coincide with the safest conditions for wading.</p>
 <p><br></p>
-<div id="field-considerations" class="section level3">
-<h3>Field Considerations</h3>
-<p>When planning a field trip to collect data to run the Geomorphic Approach, it is first necessary to identify the study reach. Then, the recommended approach is to set up a series of transects to collect stream cross sections to characterize the channel geometry. Factors such as desired accuracy, access, and time should all be considered when determining the location and the appropriate number of transects necessary to characterize the reach. Ideally, cross sections would be identified randomly within the reach, but that is not always practical. Another option is to characterize the study reach by channel units (mesohabitats), and then identify transects within those classifications using a stratified random approach. When collecting cross sections, be sure to note the estimated bankfull elevations on either side of the channel.</p>
-<p>Another key data requirement to execute the Geomorphic Approach is a grain size distribution, which is used to evaluate channel roughness and estimate velocity. This can be conducted using a Wolman pebble count, analysis of photographs, or visual estimation. Because the field work does not need to coincide with any particular flow, these data are most easily collected during open-water, low flow conditions. Coordinating a field visit during low flows would also coincide with the safest conditions for wading.</p>
-<p><br></p>
-</div>
 <div id="data-requirements" class="section level3">
 <h3>Data Requirements</h3>
 <p>The input parameters for the Geomorphic APproach are as follows:</p>
@@ -345,11 +349,11 @@ $(document).ready(function () {
 <li><strong>Bankfull width</strong>, <span class="math inline">\(W_b\)</span> (m). This field is mandatory.</li>
 <li><strong>Mean bankfull depth</strong>, <span class="math inline">\(d_b\)</span> (m). This field is mandatory.</li>
 <li><strong>Maximum bankfull depth,</strong> <span class="math inline">\(d_{max}\)</span> (m). This field is optional.</li>
-<li><strong>84th percentile of bed grain size</strong>, <span class="math inline">\(D_{84}\)</span> (mm) (the grain size of which 84% of the bed is finer).</li>
-<li><strong>Habitat Suitability Curves</strong>. These are only required if the Geomorphic Approach is to be used to calculate <em>WUA</em>. Further information regarding the format that these curves should be in is included in the description of the Habitat function, below.</li>
+<li><strong>84th percentile grain size</strong>, <span class="math inline">\(D_{84}\)</span> (mm) (the grain size of which 84% of the bed is finer).</li>
+<li><strong>Habitat Suitability Curves</strong>. These are required to calculate <em>WUA</em>. Further information regarding the format that these curves should be in is included in the description of the Habitat function, below.</li>
 <li><strong>Bankfull discharge</strong>, <span class="math inline">\(Q_{bf}\)</span>, is recommended, but is not required to run the hydraulic simulator. However, <span class="math inline">\(Q_{bf}\)</span> can be used to check that the bankfull dimensions generated by the model reflect empirical measurements. <span class="math inline">\(Q_{bf}\)</span> is necessary to run UBCRM.</li>
 </ul>
-<p>The channel dimensions are used to generate an index of channel shape, <em>b</em>. If only db is provided, then <em>b</em> is calculated as follows: <span class="math display">\[b = (W_b / d_b)\]</span> If <span class="math inline">\(d_{max}\)</span> is provided, then <em>b</em> is calculated as follows: <span class="math display">\[b = 1 - (d_b/d_{max})\]</span>. Alternatively, the R function allows the user to specify <em>b</em>, directly over-riding these functions. This option allows for Monte-Carlo or bootstrapping-type analyses to quantify uncertainty.</p>
+<p>The channel dimensions are used to generate an index of channel shape, <em>b</em>. If only db is provided, then <em>b</em> is calculated as follows: <span class="math display">\[b = (W_b / d_b)\]</span> If <span class="math inline">\(d_{max}\)</span> is provided, then <em>b</em> is calculated as follows: <span class="math display">\[b = 1 - (d_b/d_{max})\]</span>. Alternatively, the R function allows the user to specify <em>b</em>, directly over-riding these functions.</p>
 <p><br></p>
 </div>
 <div id="using-the-app" class="section level3">
@@ -370,7 +374,7 @@ library(GeomorphicApproach)</code></pre>
 <p><br></p>
 <div id="executing-the-hydraulic-simulator" class="section level4">
 <h4>Executing the Hydraulic Simulator</h4>
-<p>The first function in the Geomorphic Approach package is the ‘AvgHydraulics’ function that executes the hydraulic simulator and produces a data frame of outputs. The below code snippet provides an example of how to run the model. The following code snippets showcase the execution of the AvgHydraulics function. In this scenario, <span class="math inline">\(d_{max}\)</span> is not specified, so the function calculates <span class="math inline">\(b = (W_b / d_b)\)</span></p>
+<p>The first function in the Geomorphic Approach package is the ‘AvgHydraulics’ function that executes the hydraulic simulator and produces a data frame of outputs. The below code snippet provides an example of how to run the model. The following code snippets showcase the execution of the AvgHydraulics function. In this scenario, <span class="math inline">\(d_{max}\)</span> is not specified, so the function assumes <span class="math inline">\(b = (W_b / d_b)\)</span></p>
 <pre class="r"><code>hydraulics = AvgHydraulics(S = 0.01, wb = 10, db = 0.5, 
                            max_Q = 0.1, D84 = 100)
 head(hydraulics)</code></pre>
@@ -384,9 +388,9 @@ head(hydraulics)</code></pre>
 <p><br></p>
 <p>The idealized reach-cross section generated by this analysis is as follows: <img src="channel_xs_dmean.jpeg" width="70%" style="display: block; margin: auto;" /></p>
 <p><br></p>
-<p>Here, the <span class="math inline">\(d_{max}\)</span> term is specificied within the AvgHydraulics function call, so the function calculates <span class="math inline">\(b = 1 - (d_b/d_{max})\)</span>.</p>
+<p>Here, the <span class="math inline">\(d_{max}\)</span> term is specificied within the AvgHydraulics function call, so the function assumes <span class="math inline">\(b = 1 - (d_b/d_{max})\)</span></p>
 <pre class="r"><code>hydraulics = AvgHydraulics(S = 0.01, wb = 10, db = 0.5, db_max = 1.25,
-                           max_Q = 0.5, D84 = 100)
+                           max_Q = 0.1, D84 = 100)
 head(hydraulics)</code></pre>
 <pre><code>##       Q         Ai        Wi         di         Ui
 ## 1 0.001 0.01630011 0.2942534 0.05539035 0.06133074
@@ -398,24 +402,35 @@ head(hydraulics)</code></pre>
 <p><br></p>
 <p>The idealized reach-cross section generated by this analysis is as follows: <img src="channel_xs_dmax.jpeg" width="70%" style="display: block; margin: auto;" /></p>
 <p><br></p>
+<p>Users may also specify a b-value, thereby over-riding either formula.</p>
+<pre class="r"><code>hydraulics = AvgHydraulics(S = 0.01, wb = 10, db = 0.5, db_max = 1.25,
+                           max_Q = 0.1, D84 = 100, b_value = 0.2)</code></pre>
+<p><br></p>
 <p>This function outputs a figure of the cross-section of the idealized reach and a .csv file of the simluated reach-averaged hydraulics. This feature may be turned off by specifying xs_ouput = FALSE, like so:</p>
 <pre class="r"><code>hydraulics = AvgHydraulics(S = 0.01, wb = 10, db = 0.5, db_max = 1.25,
-                           max_Q = 0.5, D84 = 100, xs_output = FALSE)</code></pre>
+                           max_Q = 1, D84 = 100, xs_output = FALSE)</code></pre>
 <p><br></p>
 </div>
 <div id="execute-the-habitat-function" class="section level4">
 <h4>Execute the Habitat Function</h4>
-<p>The Habitat function applies statistical frequency distribution to the mean depths and velocities that are output by the hydraulic simulator function. These disitributions are then paired with user-specified habitat suitability curves to generate reach-averaged depth and velocity suitabilities. To estimate the <em>WUA</em> of the stream reach, these suitabilities are multiplied with the modelled stream width to develop a <em>WUA</em> value in m<sup>2</sup> / m. For further detail on the <em>WUA</em> calculations, refer to Gronsdahl et al.</p>
-<p>The input parameters for the Habitat function are as follows: * <strong>hydrualics</strong>, a data frame of outputs generated by the AvgHydraulics function. This field is mandatory. * <strong>d_curve</strong>, depth suitability curve. This should be a dataframe with two columns: ‘depth’ (m) and ‘suit’ (dimensionless suitability from 0-1). This field is mandatory. * <strong>v_curve</strong>, velocity suitability curve. This should be a dataframe with two columns: ‘velocity’ (m/s) and ‘suit’ (dimensionless suitability from 0-1). This field is mandatory. * <strong>s_curve</strong>, substrate suitability curve. This is a dataframe of substrate suitabilities with three columns: ‘lower’ (mm) and ‘upper’ (mm) of grain size classes and ‘suit’ (dimensionless suitability from 0-1). This field is optional. * <strong>gsd</strong>, vector of grain size distribution (mm). This field is optional.</p>
-<p>Here are some example input data used for the subsequent examples. We will use rainbow trout fry suitability curves generated by Ron Ptolemy, Instream Flow Specialist, B.C. Ministry of Environment.</p>
-<pre class="r"><code>d_curve = read.csv(&quot;depth_suit_ptolemy.csv&quot;) %&gt;% filter( species == &quot;rainbow&quot; &amp; life_stage == &quot;fry&quot;)
-v_curve = read.csv(&quot;velocity_suit_ptolemy.csv&quot;) %&gt;% filter( species == &quot;rainbow&quot; &amp; life_stage == &quot;fry&quot;)
-s_curve = read.csv(&quot;substrate_suit_ptolemy.csv&quot;)  %&gt;% filter( species == &quot;rainbow&quot; &amp; life_stage == &quot;fry&quot;)</code></pre>
-<p><img src="guidance_files/figure-html/unnamed-chunk-8-1.png" width="1440" /></p>
+<p>The Habitat function applies statistical frequency distribution to the mean depths and velocities that are output by the hydraulic simulator function. These disitributions are then paired with user-specified habitat suitability curves to generate reach-averaged depth and velocity suitabilities. To estimate the <em>WUA</em> of the stream reach, these suitabilities are multiplied with the modelled stream width to develop a <em>WUA</em> value in m<sup>2</sup> / m.</p>
+<p>The input parameters for the Habitat function are as follows:</p>
+<ul>
+<li><strong>hydrualics</strong>, a data frame of outputs generated by the AvgHydraulics function. This field is mandatory.</li>
+<li><strong>d_curve</strong>, depth suitability curve. This should be a dataframe with two columns: ‘depth’ (m) and ‘suit’ (dimensionless suitability from 0-1). This field is mandatory.</li>
+<li><strong>v_curve</strong>, velocity suitability curve. This should be a dataframe with two columns: ‘velocity’ (m/s) and ‘suit’ (dimensionless suitability from 0-1). This field is mandatory.</li>
+<li><strong>s_curve</strong>, substrate suitability curve. This is a dataframe of substrate suitabilities with three columns: ‘lower’ (mm) and ‘upper’ (mm) of grain size classes and ‘suit’ (dimensionless suitability from 0-1). This field is optional.</li>
+<li><strong>gsd</strong>, vector of grain size distribution (mm). This field is optional.</li>
+</ul>
+<p>Here are some example input data used for the subsequent examples. We will use rainbow trout parr suitability curves generated by Ron Ptolemy, Instream Flow Specialist, B.C. Ministry of Environment.</p>
+<pre class="r"><code>d_curve = read.csv(&quot;depth_suit_ptolemy.csv&quot;)%&gt;% filter(species == &quot;rainbow&quot; &amp; life_stage == &quot;parr&quot;)
+v_curve = read.csv(&quot;velocity_suit_ptolemy.csv&quot;)%&gt;% filter(species == &quot;rainbow&quot; &amp; life_stage == &quot;parr&quot;)
+s_curve = read.csv(&quot;substrate_suit_ptolemy.csv&quot;)%&gt;% filter(species == &quot;rainbow&quot; &amp; life_stage == &quot;parr&quot;)</code></pre>
+<p><img src="guidance_files/figure-html/unnamed-chunk-9-1.png" width="1440" /></p>
 <p><br></p>
 <p>The grain size distribution should be specified as a vector of numerical observations. For this example, a simulated disribution will be generated:</p>
-<pre class="r"><code>gsd = rnorm(100, mean = 50, sd = 25)</code></pre>
-<p><img src="guidance_files/figure-html/unnamed-chunk-10-1.png" width="480" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>gsd = rnorm(100, mean = 75, sd = 25)</code></pre>
+<p><img src="guidance_files/figure-html/unnamed-chunk-11-1.png" width="480" style="display: block; margin: auto;" /></p>
 <p><br></p>
 <p>And to refresh our memory, here is what the hydraulics data looks like that we generated earlier.</p>
 <pre class="r"><code>head(hydraulics)</code></pre>
@@ -427,42 +442,35 @@ s_curve = read.csv(&quot;substrate_suit_ptolemy.csv&quot;)  %&gt;% filter( speci
 ## 5 0.005 0.04132429 0.4674906 0.08839363 0.12098222
 ## 6 0.006 0.04650925 0.4963660 0.09369717 0.12899463</code></pre>
 <p><br></p>
-<p>Now, lets execute the Habitat function using just depth and velocity</p>
-<pre class="r"><code>habitat = Habitat(hydraulics = hydraulics, d_curve = d_curve, v_curve = v_curve, max_Q = 0.5)
+<p>Here is an example of the execution of the Habitat function using just depth and velocity.</p>
+<pre class="r"><code>habitat = Habitat(hydraulics = hydraulics, d_curve = d_curve, v_curve = v_curve, max_Q = 0.1)
 head(habitat)</code></pre>
-<pre><code>##       Q    d.suit    v.suit s.suit         w       WUA
-## 1 0.001 0.7645594 0.7622849      1 0.2942534 0.1714944
-## 2 0.002 0.8076120 0.8038555      1 0.3579279 0.2323680
-## 3 0.003 0.8328306 0.8168291      1 0.4043525 0.2750730
-## 4 0.004 0.8407388 0.8482032      1 0.4413796 0.3147554
-## 5 0.005 0.8513508 0.8516587      1 0.4674906 0.3389588
-## 6 0.006 0.8535424 0.8550906      1 0.4963660 0.3622758</code></pre>
+<pre><code>##       Q    d.suit    v.suit s.suit         w        WUA
+## 1 0.001 0.2235340 0.2637040      1 0.2942534 0.01734530
+## 2 0.002 0.2729970 0.3416088      1 0.3579279 0.03337971
+## 3 0.003 0.3067178 0.3905200      1 0.4043525 0.04843312
+## 4 0.004 0.3312416 0.4333281      1 0.4413796 0.06335399
+## 5 0.005 0.3498271 0.4682544      1 0.4674906 0.07657874
+## 6 0.006 0.3673975 0.4926594      1 0.4963660 0.08984316</code></pre>
 <p><br></p>
-<p>It is also possible to define the grain size distribution and substrate suitability curves to include a reach-averaged substrate suitability.</p>
-<pre class="r"><code>habitat = Habitat(hydraulics = hydraulics, d_curve = d_curve, v_curve = v_curve, 
-                  s_curve = s_curve, gsd = gsd, max_Q = 0.5)
+<p>It is also possible to define the grain size distribution and substrate suitability curves to include a reach-averaged substrate suitability. Both grain size distribution and substrate suitability curve must be specified to generate a substrate suitability value for the reach.</p>
+<pre class="r"><code>habitat = Habitat(hydraulics = hydraulics, d_curve = d_curve, 
+                  v_curve = v_curve, s_curve = s_curve, gsd = gsd, max_Q = 1)
 head(habitat)</code></pre>
-<pre><code>##       Q    d.suit    v.suit s.suit         w       WUA
-## 1 0.001 0.7645594 0.7622849      1 0.2942534 0.1714944
-## 2 0.002 0.8076120 0.8038555      1 0.3579279 0.2323680
-## 3 0.003 0.8328306 0.8168291      1 0.4043525 0.2750730
-## 4 0.004 0.8407388 0.8482032      1 0.4413796 0.3147554
-## 5 0.005 0.8513508 0.8516587      1 0.4674906 0.3389588
-## 6 0.006 0.8535424 0.8550906      1 0.4963660 0.3622758</code></pre>
+<pre><code>##       Q    d.suit    v.suit s.suit         w         WUA
+## 1 0.001 0.2235340 0.2637040   0.57 0.2942534 0.009886822
+## 2 0.002 0.2729970 0.3416088   0.57 0.3579279 0.019026432
+## 3 0.003 0.3067178 0.3905200   0.57 0.4043525 0.027606876
+## 4 0.004 0.3312416 0.4333281   0.57 0.4413796 0.036111772
+## 5 0.005 0.3498271 0.4682544   0.57 0.4674906 0.043649882
+## 6 0.006 0.3673975 0.4926594   0.57 0.4963660 0.051210601</code></pre>
 <p><br></p>
 <p>The Habitat function outputs a streamflow - habitat curve to the working directory as well. This functionality can be overridden if ‘wua_output = FALSE’ is specified.</p>
 <p><img src="WUA_Q.jpeg" width="70%" style="display: block; margin: auto;" /></p>
-<p><br> <br></p>
-</div>
-</div>
-</div>
-<div id="references" class="section level1">
-<h1>References</h1>
-<p>Eaton, B., Church, M., &amp; Millar, R. (2004). Rational regime model of alluvial channel morphology and response. Earth Surface Processes and Landforms, 29(4): 511-529. <a href="https://doi.org/10.1002/esp.1062">https://doi.org/10.1002/esp.1062</a></p>
-<p>McParland, D., Eaton, B., &amp; Rosenfeld, J. 2016. At-a-station hydraulic geometry simulator. River Research and Applications 32, 399-410. <a href="https://doi.org/10.1002/rra.2851">https://doi.org/10.1002/rra.2851</a></p>
-<p>Saraeva, E. &amp; Hardy, T.B. 2009. Prediction of fisheries physical habitat values based on hydraulic geometry and frequency distributions of depth and velocity. International Journal of River Basin Management, 7(1): 31-41. <a href="https://doi.org/10.1080/15715124.2009.9635368">https://doi.org/10.1080/15715124.2009.9635368</a></p>
-<p>Schweizer, S., Borusk, M.E., Jowett, I., &amp; Reichert, P. (2007). Predicting joint frequency distributions of depth and velocity for instream habitat assessment. River Research and Applications, 23: 287-302. <a href="https://doi.org/10.1002/rra.980">https://doi.org/10.1002/rra.980</a></p>
+<p><br></p>
 <hr />
+</div>
+</div>
 </div>
 
 

@@ -3,4 +3,6 @@
 export()
 export(Habitat)
 import("AvgHydraulics()")
+import(birk)
 import(dplyr)
+import(zoo)

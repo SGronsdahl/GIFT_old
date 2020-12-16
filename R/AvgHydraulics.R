@@ -17,6 +17,7 @@
 #' @export
 #' @return .csv and .jpeg of channel cross section if specified
 #' @return data frame of reach-averaged hydraulics
+#' @import dplyr
 #' AvgHydraulics()
 
 library(dplyr)

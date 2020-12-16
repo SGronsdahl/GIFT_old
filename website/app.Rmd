@@ -11,4 +11,4 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## R Markdown
 
-This page is a placeholder
+To access the R Shiny app to execute the Geomorphic Approach, click [here](https://sgronsdahl.shinyapps.io/GeomorphicApproach/).

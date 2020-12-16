@@ -58,7 +58,6 @@ Habitat = function(hydraulics, max_Q = 10,
 
   if(is.null(s_curve) == TRUE) {
   } else {
-    #if(!is.null(gsd)){warning("Only one of 's_curve' and 'gsd' have been defined - both are necessary to evaluate substrate suitability")}
     if(!is.data.frame(s_curve)) {stop("If specified, the 's_curve' parameter should be a data frame.")}
     if(!"upper" %in% colnames(s_curve)) {stop("The 's_curve' input parameter should be a data frame with a column named 'upper'")}
     if(!"lower" %in% colnames(s_curve)) {stop("The 's_curve' input parameter should be a data frame with a column named 'lower'")}
@@ -71,8 +70,7 @@ Habitat = function(hydraulics, max_Q = 10,
   }
 
   if(is.null(gsd) == TRUE) {
-    } else {
-      #if(!is.null(s_curve)){warning("Only one of 's_curve' and 'gsd' have been defined - both are necessary to evaluate substrate suitability")}
+  } else {
       if(!is.vector(gsd)){stop("If specified, 'gsd' should be a vector")}
       if(!is.numeric(gsd)){stop("If specified, 'gsd' should be a numeric")}
       if(min(gsd) < 0 ){stop(" 'gsd' includes grain sizes < 0 mm ")}

@@ -29,14 +29,14 @@ Habitat = function(hydraulics, max_Q = 10,
   ##################################################################
   #input validation
   #if(!is.data.frame(hydraulics)) {stop("The 'hydraulics' input parameter should be a data frame")}
-  if(nrow(hydraulics) < 3) {warning("The 'hydraulics' input parameter is a data frame with less than 3 rows")}
-  if(!"Q" %in% colnames(hydraulics)) {stop("The 'hydraulics' input parameter should be a data frame with a column named 'Q'")}
-  if(!"Ai" %in% colnames(hydraulics)) {stop("The 'hydraulics' input parameter should be a data frame with a column named 'Ai'")}
-  if(!"Wi" %in% colnames(hydraulics)) {stop("The 'hydraulics' input parameter should be a data frame with a column named 'Wi'")}
-  if(!"di" %in% colnames(hydraulics)) {stop("The 'hydraulics' input parameter should be a data frame with a column named 'di'")}
-  if(!"Ui" %in% colnames(hydraulics)) {stop("The 'hydraulics' input parameter should be a data frame with a column named 'Ui'")}
-  if(!is.numeric(hydraulics$Q) | !is.numeric(hydraulics$Ai) | !is.numeric(hydraulics$Wi) |
-     !is.numeric(hydraulics$di) | !is.numeric(hydraulics$Ui)) {stop('A field in the hydraulics data frame is not numeric')}
+  #if(nrow(hydraulics) < 3) {warning("The 'hydraulics' input parameter is a data frame with less than 3 rows")}
+  #if(!"Q" %in% colnames(hydraulics)) {stop("The 'hydraulics' input parameter should be a data frame with a column named 'Q'")}
+  #if(!"Ai" %in% colnames(hydraulics)) {stop("The 'hydraulics' input parameter should be a data frame with a column named 'Ai'")}
+  #if(!"Wi" %in% colnames(hydraulics)) {stop("The 'hydraulics' input parameter should be a data frame with a column named 'Wi'")}
+  #if(!"di" %in% colnames(hydraulics)) {stop("The 'hydraulics' input parameter should be a data frame with a column named 'di'")}
+  #if(!"Ui" %in% colnames(hydraulics)) {stop("The 'hydraulics' input parameter should be a data frame with a column named 'Ui'")}
+  #if(!is.numeric(hydraulics$Q) | !is.numeric(hydraulics$Ai) | !is.numeric(hydraulics$Wi) |
+  #   !is.numeric(hydraulics$di) | !is.numeric(hydraulics$Ui)) {stop('A field in the hydraulics data frame is not numeric')}
 
   #if(!is.data.frame(d_curve)) {stop("The 'd_curve' input parameter should be a data frame")}
   if(!"depth" %in% colnames(d_curve)) {stop("The 'd_curve' input parameter should be a data frame with a column named 'depth'")}

@@ -28,7 +28,7 @@ Habitat = function(hydraulics, max_Q = 10,
 
   ##################################################################
   #input validation
-  if(!is.data.frame(hydraulics)) {stop("The 'hydraulics' input parameter should be a data frame")}
+  #if(!is.data.frame(hydraulics)) {stop("The 'hydraulics' input parameter should be a data frame")}
   if(nrow(hydraulics) < 3) {warning("The 'hydraulics' input parameter is a data frame with less than 3 rows")}
   if(!"Q" %in% colnames(hydraulics)) {stop("The 'hydraulics' input parameter should be a data frame with a column named 'Q'")}
   if(!"Ai" %in% colnames(hydraulics)) {stop("The 'hydraulics' input parameter should be a data frame with a column named 'Ai'")}
@@ -37,8 +37,8 @@ Habitat = function(hydraulics, max_Q = 10,
   if(!"Ui" %in% colnames(hydraulics)) {stop("The 'hydraulics' input parameter should be a data frame with a column named 'Ui'")}
   if(!is.numeric(hydraulics$Q) | !is.numeric(hydraulics$Ai) | !is.numeric(hydraulics$Wi) |
      !is.numeric(hydraulics$di) | !is.numeric(hydraulics$Ui)) {stop('A field in the hydraulics data frame is not numeric')}
-  
-  if(!is.data.frame(d_curve)) {stop("The 'd_curve' input parameter should be a data frame")}
+
+  #if(!is.data.frame(d_curve)) {stop("The 'd_curve' input parameter should be a data frame")}
   if(!"depth" %in% colnames(d_curve)) {stop("The 'd_curve' input parameter should be a data frame with a column named 'depth'")}
   if(!"suit" %in% colnames(d_curve)) {stop("The 'd_curve' input parameter should be a data frame with a column named 'suit")}
   if(!is.numeric(d_curve$depth)) {stop("The depths specified in d_curve are not numeric")}
@@ -46,8 +46,8 @@ Habitat = function(hydraulics, max_Q = 10,
   if(min(d_curve$depth) < 0) {stop("The 'd_curve' data frame specifies depths < 0")}
   if(min(d_curve$suit) < 0) {stop("The 'd_curve' data frame specifies suitabilities < 0")}
   if(max(d_curve$suit) > 1) {stop("The 'd_curve' data frame specifies suitabilities > 1")}
-  
-  if(!is.data.frame(v_curve)) {stop("The 'v_curve' input parameter should be a data frame")}
+
+  #if(!is.data.frame(v_curve)) {stop("The 'v_curve' input parameter should be a data frame")}
   if(!is.numeric(v_curve$velocity)) {stop("The velocities specified in v_curve are not numeric")}
   if(!is.numeric(v_curve$suit)) {stop("The suitabilities specified in v_curve are not numeric")}
   if(!"velocity" %in% colnames(v_curve)) {stop("The 'v_curve' input parameter should be a data frame with a column named 'velocity'")}
@@ -55,11 +55,11 @@ Habitat = function(hydraulics, max_Q = 10,
   if(min(v_curve$velocity) < 0) {stop("The 'v_curve' data frame specifies velocities < 0")}
   if(min(v_curve$suit) < 0) {stop("The 'v_curve' data frame specifies suitabilities < 0")}
   if(max(v_curve$suit) > 1) {stop("The 'v_curve' data frame specifies suitabilities > 1")}
-  
+
   if(is.null(s_curve) == TRUE) {
   } else {
     if(!is.null(gsd)){warning("Only one of 's_curve' and 'gsd' have been defined - both are necessary to evaluate substrate suitability")}
-    if(!is.data.frame(s_curve)) {stop("If specified, the 's_curve' parameter should be a data frame.")}
+    #if(!is.data.frame(s_curve)) {stop("If specified, the 's_curve' parameter should be a data frame.")}
     if(!is.numeric(s_curve$upper) | !is.numeric(s_curve$lower) | !is.numeric(s_curve$suit)) {stop("One of 'upper', 'lower', or 'suit' specified in 's_curve' is not numeric")}
     if(!"upper" %in% colnames(s_curve)) {stop("The 's_curve' input parameter should be a data frame with a column named 'upper'")}
     if(!"lower" %in% colnames(s_curve)) {stop("The 's_curve' input parameter should be a data frame with a column named 'lower'")}
@@ -69,7 +69,7 @@ Habitat = function(hydraulics, max_Q = 10,
     if(max(s_curve$suit) > 1) {stop("The 's_curve' data frame specifies suitabilities > 1")}
     if(max(s_curve$upper) < 1 | max(s_curve$lower) < 1) {warning("Check the 's_curve' 'upper' and 'lower' grain sizes are in mm.")}
   }
-  
+
   if(is.null(gsd) == TRUE) {
     } else {
       if(!is.null(s_curve)){warning("Only one of 's_curve' and 'gsd' have been defined - both are necessary to evaluate substrate suitability")}
@@ -80,7 +80,7 @@ Habitat = function(hydraulics, max_Q = 10,
       if(length(gsd) < 10 ){warning(" 'gsd' includes < 10 observations ")}
     }
   ################################################################################
-  
+
   # input hydraulics
   mod_hyd = hydraulics %>% filter(Q <= max_Q)
 
@@ -169,28 +169,28 @@ Habitat = function(hydraulics, max_Q = 10,
     ######################################
     # apply suitability curves to outputs
     n.bins <- length(abs.depths)
-    
+
     # find the indexed depth/velocity suitability that nearest matches the
     # simulated bins
     sum.d.suit = 0
     sum.v.suit = 0
-    
+
     for (j in 1 : n.bins){
-      
-      # identify index of nearest suitability value 
+
+      # identify index of nearest suitability value
       j.depth <- which.closest(d_curve$depth, abs.depths[j])
       j.vel <- which.closest(v_curve$velocity, abs.velocities[j])
-      
+
       sum.d.suit = sum.d.suit + depth.dist[j]*d_curve$suit[j.depth]
       sum.v.suit = sum.v.suit + vel.dist[j]*v_curve$suit[j.vel]
     }
-    
+
     d.suit = sum.d.suit/sum(depth.dist)
     v.suit = sum.v.suit/sum(vel.dist)
-    
+
     # calculate the composite suitability and output WUA using if-else
     # statement to determine if substrate suitability is applied
-    
+
     WUA.out[i, 1] <- mod_hyd$Q[i]
     WUA.out[i, 2] <- d.suit
     WUA.out[i, 3] <- v.suit

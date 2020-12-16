@@ -19,11 +19,11 @@ Habitat(
 
 \item{max_Q}{maximum discharge (m3/s) to simualted WUA for.  Defaults to 1 m3/s.}
 
-\item{d_curve}{dataframe of depth suitabilities with two columns: 'depth' (m) and 'suit' (dimensionless suitability from 0-1)}
+\item{d_curve}{dataframe of depth suitabilities with columns: 'depth' (m) and 'suit' (dimensionless suitability from 0-1)}
 
-\item{v_curve}{dataframe of velocity suitabilities with two columns: 'velocity' (m) and 'suit' (dimensionless suitability from 0-1)}
+\item{v_curve}{dataframe of velocity suitabilities with columns: 'velocity' (m) and 'suit' (dimensionless suitability from 0-1)}
 
-\item{s_curve}{dataframe of substrate suitabilities with three columns: 'lower' (mm) and 'upper' (mm) of grain size classes and 'suit' (dimensionless suitability from 0-1)}
+\item{s_curve}{dataframe of substrate suitabilities with columns: 'lower' (mm) and 'upper' (mm) of grain size classes and 'suit' (dimensionless suitability from 0-1)}
 
 \item{gsd}{vector of grain size distribution (mm)}
 

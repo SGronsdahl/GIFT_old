@@ -14,6 +14,7 @@
 #' @param gsd vector of grain size distribution (mm)
 #' @param wua_output defaults to TRUE. Expression to specify a .jpeg output of streamflow-WUA relationship
 #' @export
+#' @import birk dplyr zoo
 #' @return data frame of streamflow, suitabilities, channel width, and WUA
 #' Habitat()
 

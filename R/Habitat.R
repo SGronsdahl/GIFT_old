@@ -227,9 +227,3 @@ Habitat = function(hydraulics, max_Q = 10,
   return(WUA.out)
 }
 
-
-# Example 1: do not specify GSD or substrate suitability
-wua = Habitat(hydraulics, max_Q = 1, d_curve = rb_depth,
-              v_curve = rb_velocity, gsd = gsd)
-
-

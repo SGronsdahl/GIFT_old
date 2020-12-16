@@ -48,22 +48,22 @@ Habitat = function(hydraulics, max_Q = 10,
   if(max(d_curve$suit) > 1) {stop("The 'd_curve' data frame specifies suitabilities > 1")}
 
   if(!is.data.frame(v_curve)) {stop("The 'v_curve' input parameter should be a data frame")}
-  if(!is.numeric(v_curve$velocity)) {stop("The velocities specified in v_curve are not numeric")}
-  if(!is.numeric(v_curve$suit)) {stop("The suitabilities specified in v_curve are not numeric")}
   if(!"velocity" %in% colnames(v_curve)) {stop("The 'v_curve' input parameter should be a data frame with a column named 'velocity'")}
   if(!"suit" %in% colnames(v_curve)) {stop("The 'v_curve' input parameter should be a data frame with a column named 'suit")}
+  if(!is.numeric(v_curve$velocity)) {stop("The velocities specified in v_curve are not numeric")}
+  if(!is.numeric(v_curve$suit)) {stop("The suitabilities specified in v_curve are not numeric")}
   if(min(v_curve$velocity) < 0) {stop("The 'v_curve' data frame specifies velocities < 0")}
   if(min(v_curve$suit) < 0) {stop("The 'v_curve' data frame specifies suitabilities < 0")}
   if(max(v_curve$suit) > 1) {stop("The 'v_curve' data frame specifies suitabilities > 1")}
 
   if(is.null(s_curve) == TRUE) {
   } else {
-    if(!is.null(gsd)){warning("Only one of 's_curve' and 'gsd' have been defined - both are necessary to evaluate substrate suitability")}
+    #if(!is.null(gsd)){warning("Only one of 's_curve' and 'gsd' have been defined - both are necessary to evaluate substrate suitability")}
     if(!is.data.frame(s_curve)) {stop("If specified, the 's_curve' parameter should be a data frame.")}
-    if(!is.numeric(s_curve$upper) | !is.numeric(s_curve$lower) | !is.numeric(s_curve$suit)) {stop("One of 'upper', 'lower', or 'suit' specified in 's_curve' is not numeric")}
     if(!"upper" %in% colnames(s_curve)) {stop("The 's_curve' input parameter should be a data frame with a column named 'upper'")}
     if(!"lower" %in% colnames(s_curve)) {stop("The 's_curve' input parameter should be a data frame with a column named 'lower'")}
     if(!"suit" %in% colnames(s_curve)) {stop("The 's_curve' input parameter should be a data frame with a column named 'suit")}
+    if(!is.numeric(s_curve$upper) | !is.numeric(s_curve$lower) | !is.numeric(s_curve$suit)) {stop("One of 'upper', 'lower', or 'suit' specified in 's_curve' is not numeric")}
     if(min(s_curve$lower) < 0 | min(s_curve$upper) < 0) {stop("The 's_curve' data frame specifies grain sizes < 0")}
     if(min(s_curve$suit) < 0) {stop("The 's_curve' data frame specifies suitabilities < 0")}
     if(max(s_curve$suit) > 1) {stop("The 's_curve' data frame specifies suitabilities > 1")}
@@ -72,11 +72,11 @@ Habitat = function(hydraulics, max_Q = 10,
 
   if(is.null(gsd) == TRUE) {
     } else {
-      if(!is.null(s_curve)){warning("Only one of 's_curve' and 'gsd' have been defined - both are necessary to evaluate substrate suitability")}
+      #if(!is.null(s_curve)){warning("Only one of 's_curve' and 'gsd' have been defined - both are necessary to evaluate substrate suitability")}
       if(!is.vector(gsd)){stop("If specified, 'gsd' should be a vector")}
       if(!is.numeric(gsd)){stop("If specified, 'gsd' should be a numeric")}
       if(min(gsd) < 0 ){stop(" 'gsd' includes grain sizes < 0 mm ")}
-      if(max(gsd) > 1000 ){warning("Ensure 'gsd' are specified in mm ")}
+      if(max(gsd) < 2 ){warning("Ensure 'gsd' are specified in mm ")}
       if(length(gsd) < 10 ){warning(" 'gsd' includes < 10 observations ")}
     }
   ################################################################################

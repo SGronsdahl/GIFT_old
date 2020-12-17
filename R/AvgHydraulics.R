@@ -179,6 +179,7 @@ calcP <- function(elev, b, wb, db, dmax) {
   return(p)
 }
 
+# Velocity function per Ferguson 2007
 calcUi <- function(Ri, D84, S) {
   D.84 <- D84 / 1000 #D84 grain size in m
   g <- 9.81 # gravity
@@ -230,10 +231,6 @@ AvgHydraulics <- function(S, wb, db, db_max = NULL, b_value = NULL, max_Q = 1,
   }
   # b value input validation
   if(b > 0.7 ) {warning("Warning: b_value outside of recommended range")}
-
-  # define grid
-  #deltaX <- 0.0001
-  #deltaY <- 0.001  # increment by which to change depths when estimating HG
 
   # estimate max depth using b-value
   dmax <- (1 + b) / (1 - b) * db

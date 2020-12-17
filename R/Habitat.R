@@ -107,8 +107,7 @@ Habitat = function(hydraulics, max_Q = 10,
       sum(sub.out[ , 2])
   }
 
-  ## test
-  ##
+
   ###########################################
   # Estimate statistical distributions
 
